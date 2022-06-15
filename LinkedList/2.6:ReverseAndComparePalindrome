@@ -1,0 +1,74 @@
+
+import java.util.Scanner;
+
+public class Main {
+    static int n, m, tempInput;
+    static Node head;
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        n = input.nextInt();
+        for (int i = 0; i < n; i++) {
+            tempInput = input.nextInt();
+            if (i == 0) {
+                head = new Node(tempInput);
+                continue;
+            }
+            head.appendToTail(tempInput);
+        }
+        boolean result = head.reverseAndCompare();
+        System.out.println(result);
+    }
+
+
+}
+
+
+class Node {
+    int data;
+    Node next;
+    public Node(){
+
+    }
+
+    public Node(int d){
+        data = d;
+    }
+
+    public void appendToTail(int d){
+        Node current = this;
+        Node newNode = new Node(d);
+        while(current.next != null){
+            current = current.next;
+        }
+        current.next = newNode;
+    }
+
+    public Node reverseLinkedList(Node first){
+        //append to start
+        Node second = null;
+        while (first != null){
+            Node newReverseNode = new Node(first.data);
+            newReverseNode.next = second;
+            second = newReverseNode;
+            first = first.next;
+        }
+        return second;
+    }
+
+    public boolean reverseAndCompare() {
+        Node first = this;
+        Node second = reverseLinkedList(this);
+        return isEqual(first,second);
+    }
+
+    public boolean isEqual(Node first , Node second){
+        while (first != null && second != null){
+            if (first.data != second.data)
+                return false;
+            first = first.next;
+            second = second.next;
+        }
+        return first == null && second == null; // finish the full two linkedlist without any false case
+    }
+}
